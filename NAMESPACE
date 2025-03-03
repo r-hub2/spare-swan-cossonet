@@ -1,0 +1,14 @@
+# Load dynamic libraries
+useDynLib(cossonet)
+
+import(cosso)
+import(survival)
+import(stats)
+import(MASS)
+import(glmnet)
+import(graphics)
+
+export(data_generation)
+export(cossonet)
+export(cossonet.predict)
+export(metric)

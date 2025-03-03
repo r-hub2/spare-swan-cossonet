@@ -1,0 +1,15 @@
+Package: cossonet
+Title: COSSO penalty-based Sparse Nonparametric Regression for
+        High-Dimensional Data
+Version: 1.0
+Authors@R: person("Jieun", "Shin", email = "jieunstat@uos.ac.kr", role = c("aut", "cre"))
+Description: The cossonet package provides tools for fitting COSSO models to various types of response data, including continuous, count, binary, and survival outcomes. It supports nonparametric regression using kernel-based methods and elastic-net regularization. Functions like cossonet.exp and cossonet.cox enable flexible modeling for exponential family and survival data, respectively, offering robust solutions for complex regression problems.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: cosso, survival, stats, MASS, glmnet, graphics
+NeedsCompilation: yes
+Packaged: 2025-03-03 12:46:30 UTC; jieun
+Author: Jieun Shin [aut, cre]
+Maintainer: Jieun Shin <jieunstat@uos.ac.kr>
