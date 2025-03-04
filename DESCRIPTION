@@ -1,6 +1,6 @@
 Package: cossonet
-Title: COSSO Penalty-Based Sparse Nonparametric Regression for
-        High-Dimensional Data
+Title: Sparse Nonparametric Regression for High-Dimensional Data using
+        COSSO
 Version: 1.0
 Authors@R: person("Jieun", "Shin", email = "jieunstat@uos.ac.kr", role = c("aut", "cre"))
 Description: The component selection and smoothing operator (COSSO) is a function that estimates sparse nonlinear components. This model is an extension of the COSSO regression model to make it functional and practical for high-dimensional data. This model supports a variety of response types, including the exponential family and Cox proportional hazards models.
@@ -14,6 +14,6 @@ Suggests: knitr, rmarkdown, testthat (>= 3.0.0), usethis (>= 2.1.5),
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2025-03-04 08:04:49 UTC; jieun
+Packaged: 2025-03-04 10:21:10 UTC; jieun
 Author: Jieun Shin [aut, cre]
 Maintainer: Jieun Shin <jieunstat@uos.ac.kr>

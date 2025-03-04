@@ -15,7 +15,7 @@ The package \pkg{cossonet} is a integrated function that estimates sparse nonlin
 
 We first load the library for \pkg{cossonet} and set a seed for reproducibility.
 
-```{r, results = 'hide', message=FALSE, warning=FALSE}
+```{r, eval=FALSE}
 devtools::install_github("jiieunshin/cossonet")
 library(cossonet)
 set.seed(20250101)
@@ -24,7 +24,7 @@ set.seed(20250101)
 ## Data generation
 
 The function \texttt{data\_generation} generates example datasets with continuous response. We generate a training set with $n=200$ and $p=20$, and a test set with $n=1000$ and $p=20$.
-```{r}
+```{reval=FALSE}
 tr = data_generation(n = 200, p = 20, SNR = 9, response = "continuous")
 str(tr)
 
@@ -36,7 +36,7 @@ str(te)
 
 The function \texttt{cossonet} is the main function that fits the model. We need to input specific arguments to this function. \texttt{family} is the type of response, and \texttt{lambda0} and \texttt{lambda_theta} are vector sequences of specific intervals.
 
-```{r, fig.width=8, fig.height=4}
+```{r, eval=FALSE}
 lambda0_seq = exp(seq(log(2^{-5}), log(2^{-1}), length.out = 20))
 lambda_theta_seq = exp(seq(log(2^{-8}), log(2^{-5}), length.out = 20))
 
@@ -46,12 +46,10 @@ fit = cossonet(tr$x, tr$y, family = 'gaussian',
 	       )
 ```
 
-When the function \texttt{cossonet} is running, the progress at each step is displayed in the console. At each step, cross-validation (CV) is performed and the mean squared error (MSE) of the training set evaluated with the optimal smoothing parameter selected by CV is displayed.
-
 ## Prediction
 
 The function \texttt{cossonet.predict} is used to predict for new data using the fitted model. The output of the function \texttt{cossonet.predict} includes the predicted values $\hat{f}$ from \texttt{f.new} and $\hat{\mu}$ from \texttt{mu.new} for the new data. The predicted value and predictive accuracy for the test set using our fitted model can be obtained by
-```{r}
+```{r, eval=FALSE}
 pred = cossonet.predict(fit, te$x)
 str(pred)
 
