@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Jieun Shin" />
+
+
+<title>cossonet</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">cossonet</h1>
+<h4 class="author">Jieun Shin</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The package is a integrated function that estimates sparse nonlinear
+components using COSSO penalty. This package is available from the
+Comprehensive R Archive Network. This script describes a example of how
+to use the package.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>We first load the library for and set a seed for reproducibility.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jiieunshin/cossonet&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(cossonet)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20250101</span>)</span></code></pre></div>
+</div>
+<div id="data-generation" class="section level2">
+<h2>Data generation</h2>
+<p>The function generates example datasets with continuous response. We
+generate a training set with <span class="math inline">\(n=200\)</span>
+and <span class="math inline">\(p=20\)</span>, and a test set with <span class="math inline">\(n=1000\)</span> and <span class="math inline">\(p=20\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>tr <span class="ot">=</span> <span class="fu">data_generation</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">p =</span> <span class="dv">20</span>, <span class="at">SNR =</span> <span class="dv">9</span>, <span class="at">response =</span> <span class="st">&quot;continuous&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">str</span>(tr)</span></code></pre></div>
+<pre><code>## List of 3
+##  $ x: num [1:200, 1:20] 0.377 0.579 0.239 0.572 0.877 ...
+##  $ f: num [1:200] 2.9439 0.0811 5.541 -0.8787 0.355 ...
+##  $ y: num [1:200] 2.9439 0.0811 5.541 -0.8787 0.355 ...</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>te <span class="ot">=</span> <span class="fu">data_generation</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">p =</span> <span class="dv">20</span>, <span class="at">SNR =</span> <span class="dv">9</span>, <span class="at">response =</span> <span class="st">&quot;continuous&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">str</span>(te)</span></code></pre></div>
+<pre><code>## List of 3
+##  $ x: num [1:1000, 1:20] 0.873 0.619 0.416 0.431 0.205 ...
+##  $ f: num [1:1000] -0.103 0.185 -1.553 -1.023 4.202 ...
+##  $ y: num [1:1000] -0.103 0.185 -1.553 -1.023 4.202 ...</code></pre>
+</div>
+<div id="model-fitting" class="section level2">
+<h2>Model fitting</h2>
+<p>The function is the main function that fits the model. We need to
+input specific arguments to this function. is the type of response, and
+and are vector sequences of specific intervals.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>lambda0_seq <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">5</span>}), <span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}), <span class="at">length.out =</span> <span class="dv">20</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>lambda_theta_seq <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">8</span>}), <span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">5</span>}), <span class="at">length.out =</span> <span class="dv">20</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cossonet</span>(tr<span class="sc">$</span>x, tr<span class="sc">$</span>y, <span class="at">family =</span> <span class="st">&#39;gaussian&#39;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>           <span class="at">lambda0 =</span> lambda0_seq,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>           <span class="at">lambda_theta =</span> lambda_theta_seq</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>           )</span></code></pre></div>
+<pre><code>## fit COSSO  with n =  200 p = 20 
+## kernel: spline and d = 20 
+## -- c-step -- 
+## proceeding...</code></pre>
+<pre><code>## mse: 3.0548 
+## 
+## -- theta-step -- 
+## proceeding...</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAGACAMAAAAtcPVNAAAA81BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZpAAZrY6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kLY6kNtmAABmADpmAGZmOgBmOjpmOmZmOpBmZjpmZmZmZpBmZrZmkLZmkNtmtttmtv+QOgCQOjqQOmaQZgCQZjqQZmaQkGaQkLaQkNuQtpCQtraQttuQtv+Q29uQ2/+pqam2ZgC2Zjq2Zma2kDq2kGa2tma2tpC2tra2ttu227a229u22/+2///bkDrbkGbbtmbbtpDbtrbb27bb2//b/9vb////AAD/tmb/25D/27b/29v//7b//9v///+xLT9rAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAXkUlEQVR4nO2dCZ/ctBmHvSTpbgj3bgv0ZofSQlvoMrS0tA3mCF08Ycff/9PUh3xoxjqty3r/z+9HGCeyPH7lx7KOkYsaAMIUsb8AADGBAIA0EACQBgIA0kAAQBoIAEgDAQBpIAAgDQQApIEAgDQQAJAGAgDSQABAGggASAMBAGkgACANBACkgQCANBAAkAYCANJAAEAaCABIAwEAaSAAIA0EAKSBAIA0EACQBgIA0kAAQBoIAEgDAQBpIAAgTUICfPdeURSP3v7BdL/jrnhyL01RFoxXvlZmpM4tV2jGPxkBmhPvubg133PDBZAKVOOfigBj/FVRskGzAIYvQlEAsvFPRYCqufV80Jz4t1dFcd1sf/duE6/X75pP+y5sDzfdX3/zrEn31vN6/pGFbNqjLC7+9kVRPL4bMm/+Yvw8pWuyvPzuWXPY+purLvF4B/rfrrhkX8r0drhVyMY/EQGa02YxOrzWlkPFquM7vgDK6UYyfewLYLbHcMMZoz4vgCldk2XPs3lG3R9lf6/ae7gbpgnd+CciQHs3mG02UfjZfX24aoM+K4A21X39bcF/HOI27tEUwOPn7Z/XLLuxCr6d59wWwHWbRfFBn3gqgObfb8++VM7QjX8iAvSR43jxZXNnuOQKoEn1+L/jDsPH8alx2KPsas4mxRC+WQHM0jVZNvv1f3bHnwrg2NXBhJ6A6MY/LQH6+rEJyPGPfcT4Auhbao9+d1+ffOT36Gvc2f1jXgBTuj5B/+dJAdRdHbyn0xymG/9EBGDRGgqgDe/jT17cTAXQl9DLd/sHyM/mH4e4jXssFMD4DDpLJyuAtg5m7T4S0I1/IgKwRthQAH24H84KoIn7x8/6e9T0cXhqHPeQFcAsnawA2jqY67vIHLrxT0SAsRvu+OLdJgDV8BR5PUSvmppUx4/GzoHuYxey8z2WC2CWTlYA7S7P6DwBEY5/KgLMBmKKt9t4PLl/uRuaVNd1+/m6jd47923l2wV8+DjcgWZ7SO9AQzppATR/UdB5AiIc/1QEmA3FfzDbuGShKPpwfMGS3M0/js+gkkYY9wyq0Qjr0lEZBOigGv9kBKjrF+9dsX6Fvq/g8af9eMihaW699Z++RfRt+9j5ejcSOX6ceiHYHrICmKWTFkB7t6MyCMCgGf+EBEgLQoMASRIq/hBgmebpltQTUGoEiz8EWKKbpkKoCZwaAeMPAZZoCuDindhfgjAB4w8BAGkgACANBACkgQCANBAAkAYCANJAAEAaCABIAwEAaSAAIA0EAKSBAIA0EACQBgIA0kAAQBoIAEgDAQBpIAAgDQQApIEAgDQQAJAGAgDSQABAGggASAMBAGkgACANBACkcSxAARhu44r4m6IdMaP4lgVbtb0UrF2NCoURS4A4h00PPwKU3Qvu2xd3QAAFECAuXgQ47q67P9sXGUMAOX4CMbxhS/juCMSf4UWAh5v+pTX7J/cQYJHPx09eAlEOL42oRG+PQPwZHmuAhv0lBFjErwBj/BsVBK/QRfwZntoA7LJ/uBFVwigAho9ADDVwQ4X4L+FbgKYO7ovguEMBLIEaIC7eBVB/gyXcHiJlvLcBWBUgbAMg/ozAAiyMPxAK+xJ+bsXd2xMbBPf/+WERf8cJOwwGwlAAcQ+L+DtO2GIyEIYCiHtYxN9xwtpwIIxkAXhuA0wg/ot4bgMYDYShAAKCNlhPSgNhKIAYIP6M+ANhKIAYIP6M+ANhKADnPNwIuz/PD4v46+H6BzEL34UkfgR480owAHZ+WMTfcULT7FAAznm4uW7q4Eu9wyL+jhOaZocCcE4rQDsNQuIA4s+AAFHw3QYYfw6g1QlBb2IQ2gCRCSSAGEH8qRQGBIgMBIgLBIhMquMAVAoDAkQGAsQFAiQDBIgLBIgMBIhLEgLQ64abgABxSUKAenkjY9AGiEuybQAUQCAQfwYEiAIEiAsEiAwEiEsqAvzY8Hnz3/jXKIBAiAUg0SEBAZIhOQEEG7kCASIDAeICASIDAeICAaKQcBtAsJEXqawNCgEgQBTQCI4MBIhLKgLw3+V0I2MgQFwgQGQgQFwgQDJAgLhAgMhAgLhAgMhAgLhAgCgk0gaQ98JlXBgptwEwGcsjRuMwGRdGygIINvJiezVAXoUBASIDAeICASIDAeICAZIBAsQlIQFoTgyCAHGBAJHZyjhAroUBAaKQSBughaQASbYBIEBAIAADAkQBAsQFAkQGAsTFuwD7org87oqCvS5Ylh0EiAEEYPgRoHxy3zhwKXlZD3EBJtIRgObMOC8CHHfNZV9d3NW9CvLsqNx0BECAuHgR4OGmefKpuhd0Vjqv6aw1NnJlQwJkOTUUNUAUUmwDUBoWDtYG6FSQZycNc5Y3nRoCxCbJXiCDjc0DAeISfxxA8FqwjGPOAQHiEk2Ak5/knZFxzDlSFMB2Y4vErwGICzABAeKSqgCsPl74l8yAAHHxNA4wPeooxwE4IIAbug4IcfQhwIifGuC4E0Zenh0VATy3AcqC9T5XxbpuaJ2NLeK9DXDcXVplBwFcMBt9sR2IlMd/84XhvxFcCUcApNlBABd0U1F6bKeiQIBT0Ah2CWqAuECAyHhvA7AqwLoNAAFOgQB+8NMLNPTDCe7/5AWYSFUA+UZGJDoOAAGWE1asd1/ewrU/LgSQ4yH+EEA7YVOvss7N4048xLLquFQEsGoD2MS/RC/QElZtgIdfzGPJbxljI0BGPw6wEcBF/BcmI2IgTI+k2gAUC8AtEIABAaKwUoDji//+sO4LQACGjQB9S6z7ya81EIBhIcDLX//q6Zvvvf5ckmTfPPofriSFtFqAbT+PrhLguOv6IA5viPqYzbKrl4P5OZFBAXMBjh/etQ0AWfy76//pHTcpQnTY1TXAtgvDQgDW/FrXCtY5LgRYpAl8J8Crwvh3y5Htux4jJ6ty5NwltKIGEBeAo+NCgGWq1//y9K8fvyYeC2jv+2w+kJN1mSAAn7B9uPTUBuDIWICVjeDvv/rq37IH0PbuX6IGELOyF+j4/ZrHf+3jQgAByvg/3Lzy9Wx1sgUgAMOuG3RdA1j3uBBAhDr+bM6E8GdJEIBhJ8DKYWDN40IAEevjb7QuEwTgEv70/ce/kfVBG2YnJteet3qdAD7jDwGEdAmP//rTa298unIQUvu4GQswYbbYgO/4YxxAmrB8+/7le8XjTwMdN+ORyAkTAfzHHwLIEvZPnj99UTz6IGwvkMHG5jCZDu0//hBAmvCLd7rAH7+8sv01gGptUI6MC8CuDbA+/qrDUhFg9WzQ1QMBEIBhN8vWV/whgJAw06E5bLokNsJaAVZjLwDV+If5RVgtbN2SL4D4v8jroRr/ML8JFkO+AFL5TTbV+IdZFUJMXgUwEX1VCA4qAkyk3AbgIF8AQQ4LASQJhb8u8nrcAfIFECT+EECSsF1uT7HouYfjDuRVAFaN4ADxpyKAZRugfe/Iut/BmB93gHwB1P7ibzQ1VL6xEezHAdrbkGDBYSPsBVja2NzEIOtxgJDxhwBzpoSV5NVT2rgVQLCRLmsGwoLFP6+Qc6wdCRb91FofCMCw6gUKE/+8Qs6xtgYQLjuvDXEBJqxqgDDxzzXkHBtvA2y/RYw2QFwS7wXKf2JQCr1AAiAAnzDuOADH5gVIdRyAI2MB7GaDRh0J5iAqwPr44wdJPWt7gdYDARhpzQXi0BeAwjhM3wZoq+DDlYNWGARgmLUBgsbfpgbIN/7d7wH67rfh/0oOV8JKGwIwjH4PYBh/CY4EIBT/JuF+iHu3/LaE4S21LcrViW2QFsC26mODQGjH39FhMxZgwkAAtuB2i2jN4QH2gnL/NYB0YxOFoR8Ig/ivOayq57muqQow64VQDsX3tTQEUGPVC5TMVBRiAkx3IHUB7C/uIIAQu25Qk/grIC6AZRtgHIbZa1TBZXEdWIDT0ki4MKwawWbxlwMBGCYCjNez5MKecbh6BAEEWAlgGH8pEIBhNA7A2ral5nSs4068egEEYJgEwjD+MjzOxt1CL5ztSHA7G2vVhBSjofhTTGfGJRf2CcuR4NXxtztsi8VAWF7xT2oqBMcWBZhIeCoER14CTOQuQPL1MQSIi5kA+8v+HamKStj7SDCHXg2QamkYBUIz/q4P22IpQD43oGEuUNsDcXiq+FXGcafqqPYhwOlGwgLYzwXSir+a4DXA5uM/zAVqC6CflShDmQICMEznAunFX4mjX+TVso2zf0inOrASoJ+L0vVBq0ciK8X6rRCAYToXSDP+KoKPxKdVGFYC9HNRugKIMBdFjHBQoGkPpNolZDcVIpn4UxUg5lwUMXQESCb+LgSI+jy0ei5QqGdQHbYowITdXKDI8XdaA8QtGau5QNX6tTkgAMNmLlD0+LsWYKk2CFRghnOBujtPuf4FJesF0JgXcSZAOr0QE2ZzgXTj38+ZkCwimpYAgo0QGI4E79uorv9Fqr8BUL0aIPplbzkXSDf+43S5SjRvjrgAdm0Al0AAho9AaPx4MmEBQjwPERCgTuA+I8avABo/nkxYAG7DkwwQIDKbrAE0ml2ac7Gi20BNgOS6hPwKMDWTPbUBOMIJwG2ssgECJIOfQAzzcYXt5e0LwG3Y20BXgET6RLfyewAxKQjAbRiVLF0BljeCAwFCbSyThwDLzicsgOc2wIRo1hAZAVSXRh4CLAMBzli1KIGAtAXgPq957IUALoklgI/Deh0HcLch+AcaNUCtbUMgIEDwDQgwkL8A/S8HKn+T4TiWw6xf6UIAX+gLsPRsGMgLbwJ0Y8DC94pBAAYEiNwg8CUAu/T9TIbjgAA2QACGLwHYr2f8TIbjgAAG+OiGO2ULgwL+2wCoAeoUBfCVnRpaAgxr6ArfJhZWgBRsgACLG5G6hLx3gzYOXNyJJ4NCgAEIEKVLyLsAKsKOA0AA39mpSatFvH0BBHcJDQEi2QABFjeiNwi2KoAACBAnOzUQIMhhIUCc7NRAgCCHhQBxshNiMijwo2aL2MXXGj+REKBOwAaiAiwj7LkLVR1AAAgQEwiQogAG8YcA64AAqazLBAGiAAEgAAMCCAQI1SKGAMshd24DBJhhKYAgg1VAAA0B2IZZ1nrfhpQAqj7ROsLzEHEBaq0bECeApQ0QQEQMAdAGWNiwEUBfDQggwlKAVQ0CCKDaWC3AqQ0QQIRpAYj3sTkmBAghgPhuBgEgwHpMGleaGx4F4DY8CeD5JW1OcSGA6fNQZgIs464bf3MC+H5JmwssuoQW/kW+oQEECGRDSAG8v6TNH6YxF++jCQQIZENIAby/pM0fLgQweh6CAIFsQA2ghdsaQHjdow0QdiN8GyDgS9qcYnqf0dxHfJiwgQixMNlIQgJwn0P0AoV8SZsDlh5a9FrEls9DqAGCbwj+AeMAEpw+D60tALdAAEZgAYJWwauBADZ4GBVzsZGGAL6y88OqjofTfdrPpuNl/khlVY5wGxDAHOcCLGzkVwMsQ0qAoQksmQyRsACeWsQQIO5G0BrguBNOArLJLglMBTi1AQLE3Qj7CHTcXbrMLgXWPg9BgLgbgdsAVSF4O5tddgmwSgBu7KWGABE20Ai2QtBvAwE0SadPFAK4xKI6oCnAMhCAtAB2c1HckvyqHM43IIBLIIA7IMBmMGoQcBsQQAwE2DoQYBUQYOtAgFVAgG1i+jw0fYYALaFbxBAgDBBgFRBg63grALekFX+j+YeWGxDAJxrPQxDAGAiwdSDAKiDANjGqz/0EYktLU4qBADkRUoAtLE0pxFODAAJEJqAAG16Y7BT7wffTDQgQB9XtzEcgNrw0pZTFukFXDQiQEqgB3KJUY/0NCAI4QHDXcs52l6b0y5r4m0VsXxSXXU+E6IeRNAtgAT+B2NjSlBHxUwO0Fe++uGwLAncgORgHiIsXAbpn0OriribzDGoPBIiLp4Wxbof+h5NeiG2tDeqPYCPBZU69QO7w3AhGDaAi1lQI3IB6fPcCjW2AWYfciuzyA3OB4uK9GxS9QHIgQFwSGAegzefTR7dx5ThcCZfni3fqSWARfz8FZZKrr7RpfAmXaKzOfcKKr0plVwjg90s4hQ0AS2qAEzZ1KcbZFQL4/RJuebhpe98ggMNdIYDfL+Ga/cUdBHC5KwTw+yWcUxbXEMDhrhDA75dwz+HqEQRwtysE8PslPHDcKd5SMrGpSzHOrhDA75eIy6YuxTi7QgC/XyIum7oU4+y6odIEwD0QAJAGAgDSQABAGggASAMBAGkgACANBACkgQCANBAAkAYCANJAAEAaCABI41iAsii6leNa+kUMLrXS1tV844xuLaJhLS5VvlxiRcYNh1eHBRZUGc/TqvONCXcm6tMS7mp+lvthyUCzo3K7Gh7V5Jo7x60A7ZKV1fBtDk+lJ8GlbT9UwpM+7pp/KofzUuTLJ5ZnXLchG1cYUWTMpVXmGxXuTJSnJd7V+CyrceV2s6Nyu5od1eSaW8CpAN2q6cfdcO1J167h0vZLLe5F5vY/gh0WhJXnyydWZNzdbKaLWrHYziytMt+4cGeiOi3xrsZn2dyAx6vY6KjzXc2OanLNLeG+DTB+mVJ9CkNa/goXMGiuke+YWJVxVVxPMVNkPE+r9YXjwZ2JVrwWUxufZfnko0EAs6POd7WIrck1d4J7AcqhOtq/Nn8Wl6btay6Fvnv2zxr5jok1Mp7+UZ3xJIDOF44HdyZa8Vrc1fQsm/Tjg7zZUee7WsTW5Jo7wbUA1Xj8fhGnveTbTGn7+7X8uW94L5Y631lijYzHSGtkPKbV+cLx4M5EK17LuxqeZfvsMlzFZkfldjWOrck1d4aPR6D5uwPkIg9pda5Tvm0vz7eat4F1BdDIeCMC9KxvCBieZbd6PvfiCO2jzne1iK3JNXeCh3EA7qsrFnEaHtWVtd7pexGl+U6JjR6BNDLeyCNQB3cm+otpzVKbnWWXmhdA96jcrjaxNbnmeFwJUM6eHLnAL/RLnacVt3tY2vL0wW6xv+s8sTLjcwFkXzj9RnB5+gRfL2zo7qp9lt2uJVu4WlH6yl3NjsoOpLrmhDitAfqvwa4SbkORVtXzVc6iqsiXT6zRpXZyUevVFml3g5qUg2xXi7Pcc105RrfxvVU36Ipz7XD7CNSew/j6pO4UxA0SLq187ONwNc9FkS+fWD2oMusFkmfMpU17IIw7E/VpCXc1P8upF8joqNyuZkc1ueYWcNwG2Pf1WN8vuy/E71I6TVvKRr9ZDXlxp5PvSWJpxi3dRa31hbm0ynyjYlIOsl2Nz7K/HM2Pyu1qdtQV51pjMhwgDgQApIEAgDQQAJAGAgDSQABAGggASAMBAGkgACANBACkgQCANBAAkAYCANJAAEAaCABIAwEAaSAAIA0EAKSBAIA0EACQBgIA0kAAQBoIAEizYQH4ZSh5jrvTxWEefp7uKj7bJI/4ZypA+6KEfxTvzP+qkiQHFuQR/zwFeLi5rQ+/r7+Z33TOb0pgFXnEPwsBqmGZ4H1RXHzcrizZr+H58Od5+jLNW9BmySP+OQhQFbfNPeeyfy9S1S4ryZYWPrw9T5/uWrbbJI/4ZyBAvzRwE95+cez9xV335sD6tJI2e0cEUJFH/DMQoA9s82df8VZtAbA3LbwxXyh+KBbghjzin40ATdDLoQDYvaZ88t1ns/RpFsB2ySP+2Qhwfgdq/uxbYVW/ZHyaBbBdtON/uLpIN/4ZCHDyDFoOz6Dlk/vjJ3U3BHN49etUn0G3i3b8f3l//EOy8c9AAEEvRFcKf39++O3hjfvjh3ep9kJsF934V83/q9tU479lAfp3IV3z/dCv/LMtBfZf/fLdi7uqLZrbVPuht4tu/EuWKs34b1gAAW3gWTcE+4teAO7vgDfO4l+2ilynGv+cBOgeMtnz5+wlm+wRKNG5KBkhiH/7CFTephr/nAToquL+HYHziSd9IzjV2Yg5IYj/+89fvp9s/LMSQEBl+OZM4Jaq7wZNEwoCACAEAgDSQABAGggASAMBAGkgACANBACkgQCANBAAkAYCANJAAEAaCABIAwEAaSAAIA0EAKSBAIA0EACQBgIA0kAAQBoIAEgDAQBpIAAgDQQApIEAgDT/B7OmCGrr36vNAAAAAElFTkSuQmCC" /><!-- --></p>
+<pre><code>## mse: 3.2739 
+## 
+## -- c-step -- 
+## proceeding... 
+## 
+## mse: 3.0548</code></pre>
+<p>When the function is running, the progress at each step is displayed
+in the console. At each step, cross-validation (CV) is performed and the
+mean squared error (MSE) of the training set evaluated with the optimal
+smoothing parameter selected by CV is displayed.</p>
+</div>
+<div id="prediction" class="section level2">
+<h2>Prediction</h2>
+<p>The function is used to predict for new data using the fitted model.
+The output of the function includes the predicted values <span class="math inline">\(\hat{f}\)</span> from and <span class="math inline">\(\hat{\mu}\)</span> from for the new data. The
+predicted value and predictive accuracy for the test set using our
+fitted model can be obtained by</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>pred <span class="ot">=</span> <span class="fu">cossonet.predict</span>(fit, te<span class="sc">$</span>x)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">str</span>(pred)</span></code></pre></div>
+<pre><code>## List of 2
+##  $ f.new : num [1:1000] 0.304 1.08 0.568 0.982 1.914 ...
+##  $ mu.new: num [1:1000] 0.304 1.08 0.568 0.982 1.914 ...</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">mean</span>((te<span class="sc">$</span>f <span class="sc">-</span> pred<span class="sc">$</span>f.new)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 3.789782</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

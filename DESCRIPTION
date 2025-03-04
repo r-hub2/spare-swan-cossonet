@@ -1,5 +1,5 @@
 Package: cossonet
-Title: COSSO penalty-based Sparse Nonparametric Regression for
+Title: COSSO Penalty-Based Sparse Nonparametric Regression for
         High-Dimensional Data
 Version: 1.0
 Authors@R: person("Jieun", "Shin", email = "jieunstat@uos.ac.kr", role = c("aut", "cre"))
@@ -9,9 +9,11 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: cosso, survival, stats, MASS, glmnet, graphics
-Suggests: testthat (>= 3.0.0)
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0), usethis (>= 2.1.5),
+        devtools
 Config/testthat/edition: 3
+VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2025-03-03 14:40:29 UTC; jieun
+Packaged: 2025-03-04 08:04:49 UTC; jieun
 Author: Jieun Shin [aut, cre]
 Maintainer: Jieun Shin <jieunstat@uos.ac.kr>
