@@ -40,6 +40,107 @@ ul.task-list{list-style: none;}
 
 
 
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -243,33 +344,58 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The package is an integrated function that estimates sparse nonlinear
-components using the COSSO penalty. This package is available from the
+<p>The package is an function that estimates sparse nonlinear components
+using the COSSO penalty. This package is available from the
 Comprehensive R Archive Network. This script describes a example of how
 to use the package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>We first load the library for and set a seed for reproducibility.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;cossonet&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(cossonet)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20250101</span>)</span></code></pre></div>
 </div>
 <div id="data-generation" class="section level2">
 <h2>Data generation</h2>
-<p>The function generates example datasets with continuous response. We
-generate a training set with <span class="math inline">\(n=200\)</span>
-and <span class="math inline">\(p=20\)</span>, and a test set with <span class="math inline">\(n=1000\)</span> and <span class="math inline">\(p=20\)</span>.</p>
+<p>The function <code>data_generation</code> generates example datasets
+with continuous response. We generate a training set with <span class="math inline">\(n=200\)</span> and <span class="math inline">\(p=20\)</span>, and a test set with <span class="math inline">\(n=1000\)</span> and <span class="math inline">\(p=20\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>tr <span class="ot">=</span> <span class="fu">data_generation</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">p =</span> <span class="dv">20</span>, <span class="at">SNR =</span> <span class="dv">9</span>, <span class="at">response =</span> <span class="st">&quot;continuous&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>te <span class="ot">=</span> <span class="fu">data_generation</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">p =</span> <span class="dv">20</span>, <span class="at">SNR =</span> <span class="dv">9</span>, <span class="at">response =</span> <span class="st">&quot;continuous&quot;</span>)</span></code></pre></div>
 </div>
 <div id="model-fitting" class="section level2">
 <h2>Model fitting</h2>
-<p>The function is the main function that fits the model. We have to
-input training set in this function. And Specific values are required to
-the arguments, such as , , and .</p>
+<p>The function <code>cossonet</code> is the main function that fits the
+model. We have to input training set in this function. And Specific
+values are required to the arguments, such as <code>family</code>,
+<code>lambda0</code>, and <code>lambda_theta</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>lambda0_seq <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">5</span>}), <span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span>}), <span class="at">length.out =</span> <span class="dv">20</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>lambda_theta_seq <span class="ot">=</span> <span class="fu">exp</span>(<span class="fu">seq</span>(<span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">8</span>}), <span class="fu">log</span>(<span class="dv">2</span><span class="sc">^</span>{<span class="sc">-</span><span class="dv">5</span>}), <span class="at">length.out =</span> <span class="dv">20</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">cossonet</span>(tr<span class="sc">$</span>x, tr<span class="sc">$</span>y, <span class="at">family =</span> <span class="st">&#39;gaussian&#39;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>           <span class="at">lambda0 =</span> lambda0_seq,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>           <span class="at">lambda_theta =</span> lambda_theta_seq</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>           )</span></code></pre></div>
 </div>
 <div id="prediction" class="section level2">
 <h2>Prediction</h2>
-<p>The function is used to predict new data based on the fitted model.
-The output includes predicted values <span class="math inline">\(\hat{f}\)</span> (from ) and <span class="math inline">\(\hat{\mu}\)</span> (from ) for the new data. The
-predicted value and predictive accuracy for the test set using our
-fitted model can be obtained by</p>
+<p>The function <code>cossonet.predict</code> is used to predict new
+data based on the fitted model. The output includes predicted values
+<span class="math inline">\(\hat{f}\)</span> (from <code>f.new</code>)
+and <span class="math inline">\(\hat{\mu}\)</span> (from
+<code>mu.new</code>) for the new data. The predicted value and
+predictive accuracy for the test set using our fitted model can be
+obtained by</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>pred <span class="ot">=</span> <span class="fu">cossonet.predict</span>(fit, te<span class="sc">$</span>x)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">mean</span>((te<span class="sc">$</span>f <span class="sc">-</span> pred<span class="sc">$</span>f.new)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<ul>
+<li>Lin, Y., &amp; Zhang, H. (2006). Component selection and smoothing
+in multivariate nonparametric regression.<br />
+<em>Annals of Statistics</em>, <strong>34</strong>(5), 2272–2297. <a href="doi:10.1214/009053606000000722" class="uri">doi:10.1214/009053606000000722</a>.</li>
+</ul>
 </div>
 
 
