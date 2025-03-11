@@ -13,6 +13,6 @@ Suggests: knitr, rmarkdown, testthat (>= 3.0.0), usethis (>= 2.1.5),
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2025-03-06 06:10:57 UTC; jieun
+Packaged: 2025-03-11 06:00:46 UTC; jieun
 Author: Jieun Shin [aut, cre]
 Maintainer: Jieun Shin <jieunstat@uos.ac.kr>
